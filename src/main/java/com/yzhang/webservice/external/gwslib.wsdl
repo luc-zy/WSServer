@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="gwslib" targetNamespace="http://localhost/gwslib.wsdl"
+	xmlns:tns="http://localhost/gwslib.wsdl" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="urn:gwslib"
+	xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+	xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+	xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+	<types>
+
+		<schema targetNamespace="urn:gwslib"
+			xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+			xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns="urn:gwslib"
+			xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified"
+			attributeFormDefault="unqualified">
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<!-- operation request element -->
+			<element name="DoCommand">
+				<complexType>
+					<sequence>
+						<element name="strXMLReq" type="xsd:string" minOccurs="1"
+							maxOccurs="1" /><!-- ns__DoCommand::strXMLReq -->
+					</sequence>
+				</complexType>
+			</element>
+			<!-- operation response element -->
+			<element name="DoCommandResponse">
+				<complexType>
+					<sequence>
+						<element name="strResp" type="xsd:string" minOccurs="1"
+							maxOccurs="1" /><!-- ns__DoCommand::strResp -->
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+
+	</types>
+
+	<message name="DoCommandRequest">
+		<part name="parameters" element="ns:DoCommand" /><!-- ns__DoCommand::ns__DoCommand -->
+	</message>
+
+	<message name="DoCommandResponse">
+		<part name="parameters" element="ns:DoCommandResponse" />
+	</message>
+
+	<portType name="gwslibPortType">
+		<operation name="DoCommand">
+			<documentation>Service definition of function ns__DoCommand
+			</documentation>
+			<input message="tns:DoCommandRequest" />
+			<output message="tns:DoCommandResponse" />
+		</operation>
+	</portType>
+
+	<binding name="gwslib" type="tns:gwslibPortType">
+		<SOAP:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="DoCommand">
+			<SOAP:operation soapAction="" />
+			<input>
+				<SOAP:body parts="parameters" use="literal" />
+			</input>
+			<output>
+				<SOAP:body parts="parameters" use="literal" />
+			</output>
+		</operation>
+	</binding>
+
+	<service name="gwslib">
+		<documentation>gSOAP 2.8.11 generated service definition
+		</documentation>
+		<port name="gwslib" binding="tns:gwslib">
+			<SOAP:address location="http://localhost/gwslib.cgi" />
+		</port>
+	</service>
+
+</definitions>
