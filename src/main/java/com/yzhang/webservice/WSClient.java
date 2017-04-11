@@ -19,9 +19,15 @@ public class WSClient implements Client{
     private static final long TIMEOUT = 15000;
     private WSConfig config;
 
+    public WSClient(String targetIp, int targetPort){
+        config = new WSConfig();
+        config.setTargetIp(targetIp);
+        config.setTargetPort(targetPort);
+    }
+
     public Response sendRequest(Request request) throws WebServiceClientException {
         String req = request.convertToString();
-        logger.debug("<<发送>> -----> "+ req);
+        logger.info("<< WSClient发送>> -----> "+ req);
 
         GwslibStub.DoCommand cmd = new GwslibStub.DoCommand();
         cmd.setStrXMLReq(req);
@@ -44,7 +50,7 @@ public class WSClient implements Client{
         }
 
         String ret = res.getStrResp();
-        logger.debug("<<接收>> <----- "+ ret);
+        logger.info("<<WSClient接收>> <----- "+ ret);
         Response response = request.getResponse();
         try{
             response.parseString(ret);
@@ -71,11 +77,11 @@ public class WSClient implements Client{
 
     /************getter and setter************/
 
-    public WSConfig getConfig() {
-        return config;
-    }
-
-    public void setConfig(WSConfig config) {
-        this.config = config;
-    }
+//    public WSConfig getConfig() {
+//        return config;
+//    }
+//
+//    public void setConfig(WSConfig config) {
+//        this.config = config;
+//    }
 }
