@@ -12,6 +12,8 @@ import org.json.JSONObject;
 public class LongPollingRequest extends WSRequest {
     private static final long DEFAULT_TIMEOUT = 15;
 
+    private String customParam;
+
     public Response getResponse() {
          return new LongPollingResponse();
     }
@@ -21,7 +23,22 @@ public class LongPollingRequest extends WSRequest {
         json.putOpt("request", "longpolling");
         JSONObject param = new JSONObject();
         param.putOpt("timeout", DEFAULT_TIMEOUT);
+        if (customParam !=null) {
+            param.putOpt("customParam", customParam);
+        }
         json.putOpt("param", param);
         return json.toString();
+    }
+
+
+
+    /************getter and setter************/
+
+    public String getCustomParam() {
+        return customParam;
+    }
+
+    public void setCustomParam(String customParam) {
+        this.customParam = customParam;
     }
 }

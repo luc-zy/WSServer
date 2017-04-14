@@ -7,6 +7,7 @@ import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.rmi.RemoteException;
 
@@ -37,7 +38,7 @@ public class WSClient implements Client{
             stub = getGwslibStub();
             Options opts = stub._getServiceClient().getOptions();
             opts.setTimeOutInMilliSeconds(TIMEOUT);
-            res = stub.doCommand(cmd);
+//            res = stub.doCommand(cmd);
         } catch (AxisFault axisFault) {
             logger.error("AxisFault", axisFault);
             throw new WebServiceClientException("连接刻录机服务失败："+ config.getTargetEndpoint());
@@ -49,18 +50,21 @@ public class WSClient implements Client{
             throw new WebServiceClientException("连接刻录机服务失败："+ config.getTargetEndpoint());
         }
 
-        String ret = res.getStrResp();
+//        String ret = res.getStrResp();
+        String ret ="{ \"result\": ok, \"errorCode\": 0, \"param\": {\"customParam\": don't reapeat yourself}}";
         logger.info("<<WSClient接收>> <----- "+ ret);
         Response response = request.getResponse();
         try{
-            response.parseString(ret);
+            JSONObject jsonObject = new JSONObject(ret);
+            response.parseJson(jsonObject);
         } catch (JSONException e) {
             logger.error("JSONException", e);
             throw new WebServiceClientException("解析返回结果错误："+ config.getTargetEndpoint());
         }
+
         int errorCode = response.getErrorCode();
-        if (errorCode> 0){
-            throw new WebServiceClientException("远端返回错误码："+ errorCode);
+        if (errorCode > 0){
+            throw new WebServiceClientException("远端返回错误码 errorCode: "+ errorCode);
         }
         return response;
     }

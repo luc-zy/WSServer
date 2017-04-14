@@ -18,20 +18,23 @@ public class Demo
         LongPollingResponse response = null;
 
         //only use WSClient to send a request
+        requestOne.setCustomParam("test");
         WSClient singleClient = new WSClient("172.16.128.98", 9999);
         try {
             response = (LongPollingResponse) singleClient.sendRequest(requestOne);
         } catch (WebServiceClientException e) {
             logger.error("WebService请求发送失败", e);
         }
+        System.out.println(response.getCustomParam());
 
         //use WSServer to manage connection and send a request
-        LongPollingRequest requestTwo = new LongPollingRequest();
-        WSConnection connection = WSServer.getInstance().addConnection("172.16.128.98", 9999);
-        try {
-            response = (LongPollingResponse) connection.sendRequest(requestTwo);
-        } catch (WebServiceClientException e) {
-            logger.error("WebService请求发送失败", e);
-        }
+//        LongPollingRequest requestTwo = new LongPollingRequest();
+//        WSConnection connection = WSServer.getInstance().addConnection("172.16.128.98", 9999);
+//        try {
+//            response = (LongPollingResponse) connection.sendRequest(requestTwo);
+//        } catch (WebServiceClientException e) {
+//            logger.error("WebService请求发送失败", e);
+//        }
+//        System.out.println(response.getCustomParam());
     }
 }
